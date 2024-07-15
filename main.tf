@@ -89,6 +89,7 @@ resource "aws_instance" "neo4j_instance" {
 # Config file: /etc/neo4j/neo4j.conf
 # edit and uncomment the following line
 # dbms.default_listen_address=0.0.0.0
+# default credentials: neo4j/neo4j
 
 # Output the public IP of the EC2 instance
 output "instance_public_ip" {
