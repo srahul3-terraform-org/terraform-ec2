@@ -95,3 +95,21 @@ resource "aws_instance" "neo4j_instance" {
 output "instance_public_ip" {
   value = aws_instance.neo4j_instance.public_ip
 }
+
+# Output the public DNS of the EC2 instance
+output "instance_public_dns" {
+  value = aws_instance.neo4j_instance.public_dns
+}
+
+# Output the neo4j instructions
+output "neo4j_instructions" {
+  value = <<-EOF
+          To access the Neo4j browser, navigate to the following URL in your web browser:
+
+          http://${aws_instance.neo4j_instance.public_dns}:7474
+
+          Default credentials:
+          Username: neo4j
+          Password: neo4j
+          EOF
+}
