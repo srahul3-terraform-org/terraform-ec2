@@ -5,32 +5,23 @@ provider "aws" {
   region = "us-west-2"
 }
 
-# Create a new VPC
-resource "aws_vpc" "neo4j_vpc" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_support   = true
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "2.78.0"
+
+  name                 = "neo4j_vpc"
+  cidr                 = "10.0.0.0/16"
+  azs                  = ["us-west-2a"]
+  private_subnets      = ["10.0.1.0/24"]
+  public_subnets       = ["10.0.2.0/24"]
+  enable_nat_gateway   = true
+  single_nat_gateway   = true
   enable_dns_hostnames = true
-  tags = {
-    Name = "neo4j_vpc"
-  }
-}
-
-# Create an internet gateway for the VPC
-resource "aws_internet_gateway" "neo4j_gw" {
-  vpc_id = aws_vpc.neo4j_vpc.id
-}
-
-# Create a subnet
-resource "aws_subnet" "neo4j_subnet" {
-  vpc_id                  = aws_vpc.neo4j_vpc.id
-  cidr_block              = "10.0.1.0/24"
-  map_public_ip_on_launch = true
-  availability_zone       = "us-west-2a"
 }
 
 # Create a security group
 resource "aws_security_group" "neo4j_sg" {
-  vpc_id = aws_vpc.neo4j_vpc.id
+  vpc_id = module.vpc.vpc_id
   name   = "neo4j_sg"
 
   ingress {
@@ -70,7 +61,7 @@ resource "aws_security_group" "neo4j_sg" {
 resource "aws_instance" "neo4j_instance" {
   ami                         = "ami-0aff18ec83b712f05" # Update this to the latest Amazon Linux 2 AMI in your region
   instance_type               = "t2.large"
-  subnet_id                   = aws_subnet.neo4j_subnet.id
+  subnet_id                   = module.vpc.public_subnets[0]
   vpc_security_group_ids      = [aws_security_group.neo4j_sg.id]
   key_name                    = "nomad" # Specify the existing key pair name
   associate_public_ip_address = true    # Enable public IP
