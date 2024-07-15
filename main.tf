@@ -103,7 +103,7 @@ output "instance_public_dns" {
 
 # Output the neo4j instructions
 output "neo4j_instructions" {
-  value = <<-EOF
+  value = <<SSHCONFIG
           To access the Neo4j browser, navigate to the following URL in your web browser:
 
           http://${aws_instance.neo4j_instance.public_dns}:7474
@@ -111,5 +111,5 @@ output "neo4j_instructions" {
           Default credentials:
           Username: neo4j
           Password: neo4j
-          EOF
+          SSHCONFIG
 }
