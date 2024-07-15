@@ -1,3 +1,5 @@
+# doormat aws tf-push --workspace terraform-ec2-neo4j --organization srahul3 --account 980777455695
+
 # Define the provider
 provider "aws" {
   region = "us-west-2"
@@ -65,7 +67,7 @@ resource "aws_security_group" "neo4j_sg" {
 
 # Create an EC2 instance
 resource "aws_instance" "neo4j_instance" {
-  ami                         = "ami-0c55b159cbfafe1f0" # Update this to the latest Amazon Linux 2 AMI in your region
+  ami                         = "ami-0aff18ec83b712f05" # Update this to the latest Amazon Linux 2 AMI in your region
   instance_type               = "t2.large"
   subnet_id                   = aws_subnet.neo4j_subnet.id
   security_groups             = [aws_security_group.neo4j_sg.name]
