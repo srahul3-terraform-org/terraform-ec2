@@ -31,6 +31,7 @@ resource "aws_subnet" "neo4j_subnet" {
 # Create a security group
 resource "aws_security_group" "neo4j_sg" {
   vpc_id = aws_vpc.neo4j_vpc.id
+  name = "neo4j_sg"
 
   ingress {
     from_port   = 22
@@ -61,7 +62,7 @@ resource "aws_security_group" "neo4j_sg" {
   }
 
   tags = {
-    Name = "neo4j_sg"
+    Name = "neo4j_sg" // may not be needed but good for human readability
   }
 }
 
