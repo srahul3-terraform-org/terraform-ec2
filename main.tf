@@ -31,7 +31,7 @@ resource "aws_subnet" "neo4j_subnet" {
 # Create a security group
 resource "aws_security_group" "neo4j_sg" {
   vpc_id = aws_vpc.neo4j_vpc.id
-  name = "neo4j_sg"
+  name   = "neo4j_sg"
 
   ingress {
     from_port   = 22
@@ -71,7 +71,7 @@ resource "aws_instance" "neo4j_instance" {
   ami                         = "ami-0aff18ec83b712f05" # Update this to the latest Amazon Linux 2 AMI in your region
   instance_type               = "t2.large"
   subnet_id                   = aws_subnet.neo4j_subnet.id
-  security_groups             = [aws_security_group.neo4j_sg.name]
+  vpc_security_group_ids      = [aws_security_group.neo4j_sg.id]
   key_name                    = "nomad" # Specify the existing key pair name
   associate_public_ip_address = true    # Enable public IP
 
