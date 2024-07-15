@@ -85,6 +85,11 @@ resource "aws_instance" "neo4j_instance" {
   }
 }
 
+# Config update, change network binding
+# Config file: /etc/neo4j/neo4j.conf
+# edit and uncomment the following line
+# dbms.default_listen_address=0.0.0.0
+
 # Output the public IP of the EC2 instance
 output "instance_public_ip" {
   value = aws_instance.neo4j_instance.public_ip
