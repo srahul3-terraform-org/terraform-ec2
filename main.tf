@@ -92,6 +92,8 @@ resource "aws_instance" "neo4j_instance" {
 # dbms.default_listen_address=0.0.0.0
 # default credentials: neo4j/neo4j
 
+# newer version 5x onwards, ssg to ec2 and run `sudo neo4j-admin set-initial-password <password>`
+
 # Output the public IP of the EC2 instance
 output "instance_public_ip" {
   value = aws_instance.neo4j_instance.public_ip
