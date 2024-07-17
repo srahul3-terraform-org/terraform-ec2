@@ -72,13 +72,14 @@ resource "aws_instance" "neo4j_instance" {
               #!/bin/bash
               sudo apt-get update -y
               sudo apt-get install -y openjdk-11-jre-headless
-              wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
-              echo 'deb https://debian.neo4j.com stable 4.2' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
+              wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/neotechnology.gpg
+              echo 'deb [signed-by=/etc/apt/keyrings/neotechnology.gpg] https://debian.neo4j.com stable 5' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
               sudo apt-get update -y
-              sudo apt-get install -y neo4j=1:4.2.*
+              sudo apt-get install -y neo4j=1:5.21.*
               sudo systemctl enable neo4j
               sudo systemctl start neo4j
               EOF
+
 
   tags = {
     Name = "Neo4jInstance"
